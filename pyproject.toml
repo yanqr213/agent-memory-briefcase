@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-memory-briefcase"
-version = "0.1.0"
+version = "0.2.0"
 description = "Offline long-term memory bundles for Codex, Claude Code, and other AI coding agents."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -41,9 +41,14 @@ classifiers = [
 [project.scripts]
 agent-memory-briefcase = "agent_memory_briefcase.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/yanqr213/agent-memory-briefcase"
+Repository = "https://github.com/yanqr213/agent-memory-briefcase"
+Issues = "https://github.com/yanqr213/agent-memory-briefcase/issues"
+Changelog = "https://github.com/yanqr213/agent-memory-briefcase/blob/main/CHANGELOG.md"
+
 [tool.setuptools]
 package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

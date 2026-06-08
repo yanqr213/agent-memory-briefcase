@@ -107,6 +107,29 @@ class CliTests(unittest.TestCase):
         self.assertEqual(payload["bundle"]["profile"]["project_name"], "demo")
         self.assertIn("Wrote export", out)
 
+    def test_export_command_writes_handoff(self) -> None:
+        self._run(["init", "--root", str(self.root), "--project-name", "demo"])
+        self._run(
+            [
+                "add-session",
+                "--root",
+                str(self.root),
+                "--summary",
+                "Prepared handoff",
+                "--deliverable",
+                "handoff brief",
+                "--test",
+                "unit",
+            ]
+        )
+        target = self.root / "out" / "handoff.md"
+        code, out, _ = self._run(["export", "--root", str(self.root), "--format", "handoff", "--output", str(target)])
+        self.assertEqual(code, 0)
+        content = target.read_text(encoding="utf-8")
+        self.assertIn("# Agent Handoff Brief", content)
+        self.assertIn("Prepared handoff", content)
+        self.assertIn("Wrote export", out)
+
     def test_lint_command_returns_zero_without_threshold(self) -> None:
         self._run(["init", "--root", str(self.root), "--project-name", "demo"])
         code, out, _ = self._run(["lint", "--root", str(self.root)])
@@ -133,4 +156,3 @@ class CliTests(unittest.TestCase):
         code, _, err = self._run(["brief", "--root", str(self.root)])
         self.assertEqual(code, 2)
         self.assertIn("Run `agent-memory-briefcase init` first", err)
-

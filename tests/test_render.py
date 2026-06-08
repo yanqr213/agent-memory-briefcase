@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from agent_memory_briefcase.render import render_json_export, render_markdown_export
+from agent_memory_briefcase.render import render_handoff_export, render_json_export, render_markdown_export
 from agent_memory_briefcase.storage import add_decision, add_session, init_bundle, load_bundle
 
 
@@ -48,3 +48,11 @@ class RenderTests(unittest.TestCase):
         payload = json.loads(render_json_export(bundle))
         self.assertEqual(len(payload["bundle"]["decisions"]), 1)
 
+    def test_render_handoff_export_contains_agent_prompt(self) -> None:
+        bundle = load_bundle(self.root)
+        content = render_handoff_export(bundle)
+
+        self.assertIn("# Agent Handoff Brief", content)
+        self.assertIn("## Recent Work", content)
+        self.assertIn("## Suggested Next-Agent Prompt", content)
+        self.assertIn("Exported bundle", content)

@@ -7,7 +7,7 @@ from typing import List, Optional
 
 from agent_memory_briefcase.briefing import brief_as_json, generate_brief_from_root
 from agent_memory_briefcase.linting import highest_severity, run_lint
-from agent_memory_briefcase.render import render_json_export, render_markdown_export
+from agent_memory_briefcase.render import render_handoff_export, render_json_export, render_markdown_export
 from agent_memory_briefcase.storage import (
     BriefcaseError,
     add_decision,
@@ -126,11 +126,12 @@ def cmd_brief(args: argparse.Namespace) -> int:
 
 def cmd_export(args: argparse.Namespace) -> int:
     bundle = load_bundle(Path(args.root))
-    content = (
-        render_json_export(bundle)
-        if args.format == "json"
-        else render_markdown_export(bundle)
-    )
+    if args.format == "json":
+        content = render_json_export(bundle)
+    elif args.format == "handoff":
+        content = render_handoff_export(bundle)
+    else:
+        content = render_markdown_export(bundle)
     if args.output:
         target = Path(args.output)
         _write_output(target, content)
@@ -235,9 +236,9 @@ def build_parser() -> argparse.ArgumentParser:
     check_parser = subparsers.add_parser("check", parents=[lint_parent], help="CI-friendly validation.")
     check_parser.set_defaults(func=cmd_check)
 
-    export_parser = subparsers.add_parser("export", help="Export the full bundle as Markdown or JSON.")
+    export_parser = subparsers.add_parser("export", help="Export the full bundle as Markdown, JSON, or handoff Markdown.")
     export_parser.add_argument("--root", default=".", help=root_help)
-    export_parser.add_argument("--format", choices=["markdown", "json"], default="markdown")
+    export_parser.add_argument("--format", choices=["markdown", "json", "handoff"], default="markdown")
     export_parser.add_argument("--output")
     export_parser.set_defaults(func=cmd_export)
     return parser

@@ -22,4 +22,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Run example check
         run: python -m agent_memory_briefcase check --root examples/demo_bundle --check warning
-
+      - name: Run handoff export smoke
+        run: python -m agent_memory_briefcase export --root examples/demo_bundle --format handoff --output build/agent-handoff.md
