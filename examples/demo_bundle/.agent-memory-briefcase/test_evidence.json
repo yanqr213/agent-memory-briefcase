@@ -13,7 +13,13 @@
       "last_run": "2026-06-08",
       "command": "python -m agent_memory_briefcase brief --root examples/demo_bundle",
       "notes": "Prompt-ready brief generation."
+    },
+    {
+      "name": "doctor",
+      "status": "passed",
+      "last_run": "2026-06-09",
+      "command": "python -m agent_memory_briefcase doctor --root examples/demo_bundle --check warning",
+      "notes": "Memory health gate for agent handoff readiness."
     }
   ]
 }
-

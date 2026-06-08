@@ -6,7 +6,9 @@ from pathlib import Path
 from typing import List, Optional
 
 from agent_memory_briefcase.briefing import brief_as_json, generate_brief_from_root
+from agent_memory_briefcase.doctor import render_doctor_markdown, run_doctor
 from agent_memory_briefcase.linting import highest_severity, run_lint
+from agent_memory_briefcase.models import Finding
 from agent_memory_briefcase.render import render_handoff_export, render_json_export, render_markdown_export
 from agent_memory_briefcase.storage import (
     BriefcaseError,
@@ -154,6 +156,23 @@ def cmd_check(args: argparse.Namespace) -> int:
     return _exit_for_threshold(findings, threshold)
 
 
+def cmd_doctor(args: argparse.Namespace) -> int:
+    report = run_doctor(Path(args.root), today=_parse_date(args.today))
+    content = (
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+        if args.format == "json"
+        else render_doctor_markdown(report)
+    )
+    if args.output:
+        target = Path(args.output)
+        _write_output(target, content)
+        print(f"Wrote doctor report to {target.resolve()}")
+    else:
+        print(content, end="")
+    findings = [Finding(**item) for item in report["findings"]]
+    return _exit_for_threshold(findings, args.check)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agent-memory-briefcase",
@@ -235,6 +254,21 @@ def build_parser() -> argparse.ArgumentParser:
 
     check_parser = subparsers.add_parser("check", parents=[lint_parent], help="CI-friendly validation.")
     check_parser.set_defaults(func=cmd_check)
+
+    doctor_parser = subparsers.add_parser(
+        "doctor",
+        help="Generate a health report for agent handoffs and CI gates.",
+    )
+    doctor_parser.add_argument("--root", default=".", help=root_help)
+    doctor_parser.add_argument("--format", choices=["markdown", "json"], default="markdown")
+    doctor_parser.add_argument("--output")
+    doctor_parser.add_argument("--today", help="Override the current day in YYYY-MM-DD format.")
+    doctor_parser.add_argument(
+        "--check",
+        choices=["warning", "error"],
+        help="Return a failing exit code when the selected severity is present.",
+    )
+    doctor_parser.set_defaults(func=cmd_doctor)
 
     export_parser = subparsers.add_parser("export", help="Export the full bundle as Markdown, JSON, or handoff Markdown.")
     export_parser.add_argument("--root", default=".", help=root_help)

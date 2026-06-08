@@ -9,7 +9,11 @@
       "name": "Check memory",
       "command": "python -m agent_memory_briefcase check --root examples/demo_bundle --check warning",
       "purpose": "Fail when the bundle contains warnings or errors"
+    },
+    {
+      "name": "Doctor report",
+      "command": "python -m agent_memory_briefcase doctor --root examples/demo_bundle --check warning --output build/agent-doctor.md",
+      "purpose": "Generate a human-readable health report for agent handoffs and CI gates"
     }
   ]
 }
-

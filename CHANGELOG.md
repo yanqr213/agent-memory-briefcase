@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 - 2026-06-09
+
+- Added `doctor` health reports for agent handoff readiness.
+- Doctor reports include a readiness status, score, content counts, gate summaries, lint findings, and concrete next actions.
+- Added Markdown and JSON doctor output plus `--check warning|error` support for CI gates.
+- Added CLI, renderer, and health-report tests.
+- Expanded the example bundle, CI smoke checks, and Chinese / English README docs.
+
 ## 0.2.0 - 2026-06-08
 
 - Added `export --format handoff` for new-thread agent handoffs.

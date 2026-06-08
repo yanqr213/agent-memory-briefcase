@@ -152,6 +152,32 @@ class CliTests(unittest.TestCase):
         code, _, _ = self._run(["check", "--root", str(self.root), "--check", "warning"])
         self.assertEqual(code, 1)
 
+    def test_doctor_command_prints_json(self) -> None:
+        self._run(["init", "--root", str(self.root), "--project-name", "demo"])
+        code, out, _ = self._run(["doctor", "--root", str(self.root), "--format", "json"])
+        payload = json.loads(out)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(payload["project_name"], "demo")
+        self.assertEqual(payload["status"], "attention")
+
+    def test_doctor_command_writes_output_with_parent_creation(self) -> None:
+        self._run(["init", "--root", str(self.root), "--project-name", "demo"])
+        target = self.root / "build" / "doctor.md"
+        code, out, _ = self._run(["doctor", "--root", str(self.root), "--output", str(target)])
+
+        self.assertEqual(code, 0)
+        self.assertTrue(target.exists())
+        self.assertIn("# Agent Memory Doctor", target.read_text(encoding="utf-8"))
+        self.assertIn("Wrote doctor report", out)
+
+    def test_doctor_command_can_fail_on_warning_threshold(self) -> None:
+        self._run(["init", "--root", str(self.root), "--project-name", "demo"])
+        code, out, _ = self._run(["doctor", "--root", str(self.root), "--check", "warning"])
+
+        self.assertEqual(code, 1)
+        self.assertIn("## Next Actions", out)
+
     def test_command_returns_error_when_uninitialized(self) -> None:
         code, _, err = self._run(["brief", "--root", str(self.root)])
         self.assertEqual(code, 2)
