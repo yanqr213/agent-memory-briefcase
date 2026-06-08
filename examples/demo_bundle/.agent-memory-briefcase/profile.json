@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "project_name": "demo-memory-bundle",
+  "project_summary": "Sample repository memory bundle for AI coding agents.",
+  "owners": [
+    "platform-team"
+  ],
+  "default_branch": "main",
+  "primary_language": "Python",
+  "review_after_days": 30,
+  "brief_defaults": {
+    "max_words": 240,
+    "max_tokens": 480
+  },
+  "created_at": "2026-06-08T00:00:00Z",
+  "updated_at": "2026-06-08T00:00:00Z"
+}
+

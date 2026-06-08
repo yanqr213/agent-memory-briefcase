@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "bundle_dir": ".agent-memory-briefcase",
+  "files": {
+    "profile": "profile.json",
+    "constraints": "constraints.md",
+    "glossary": "glossary.json",
+    "commands": "commands.json",
+    "ownership": "ownership.json",
+    "test_evidence": "test_evidence.json",
+    "decisions": "decisions/",
+    "sessions": "sessions/",
+    "exports": "exports/"
+  }
+}
+

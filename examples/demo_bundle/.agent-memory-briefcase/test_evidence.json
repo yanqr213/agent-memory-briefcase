@@ -1,0 +1,19 @@
+{
+  "evidence": [
+    {
+      "name": "unit",
+      "status": "passed",
+      "last_run": "2026-06-08",
+      "command": "python -m unittest discover -s tests -v",
+      "notes": "Core regression suite."
+    },
+    {
+      "name": "smoke",
+      "status": "passed",
+      "last_run": "2026-06-08",
+      "command": "python -m agent_memory_briefcase brief --root examples/demo_bundle",
+      "notes": "Prompt-ready brief generation."
+    }
+  ]
+}
+

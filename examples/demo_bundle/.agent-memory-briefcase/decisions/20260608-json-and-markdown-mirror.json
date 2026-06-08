@@ -1,0 +1,18 @@
+{
+  "id": "20260608-json-and-markdown-mirror",
+  "title": "Mirror memory records in JSON and Markdown",
+  "status": "accepted",
+  "date": "2026-06-08",
+  "context": "Agents and humans both need to inspect durable project memory.",
+  "decision": "Store decisions and session summaries in paired JSON and Markdown files.",
+  "consequences": [
+    "Structured tooling can consume JSON directly.",
+    "Code review remains readable with Markdown mirrors."
+  ],
+  "tags": [
+    "storage",
+    "documentation"
+  ],
+  "updated_at": "2026-06-08T00:00:00Z"
+}
+

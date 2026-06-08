@@ -1,0 +1,17 @@
+{
+  "owners": [
+    {
+      "path": "src/agent_memory_briefcase/",
+      "owner": "platform-team",
+      "validated_at": "2026-06-08",
+      "notes": "Core CLI, storage, linting, and export logic."
+    },
+    {
+      "path": "tests/",
+      "owner": "qa-team",
+      "validated_at": "2026-06-08",
+      "notes": "Regression coverage and smoke tests."
+    }
+  ]
+}
+

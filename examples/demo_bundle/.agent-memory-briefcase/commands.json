@@ -1,0 +1,15 @@
+{
+  "commands": [
+    {
+      "name": "Run tests",
+      "command": "python -m unittest discover -s tests -v",
+      "purpose": "Execute the project regression suite"
+    },
+    {
+      "name": "Check memory",
+      "command": "python -m agent_memory_briefcase check --root examples/demo_bundle --check warning",
+      "purpose": "Fail when the bundle contains warnings or errors"
+    }
+  ]
+}
+

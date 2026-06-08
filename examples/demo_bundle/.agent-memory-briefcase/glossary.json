@@ -1,0 +1,13 @@
+{
+  "terms": [
+    {
+      "term": "brief",
+      "definition": "A compact context package generated for an AI coding agent."
+    },
+    {
+      "term": "ADR",
+      "definition": "Architecture Decision Record."
+    }
+  ]
+}
+

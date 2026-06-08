@@ -1,0 +1,24 @@
+{
+  "id": "20260608-bootstrap-memory-bundle",
+  "summary": "Bootstrap sample memory bundle",
+  "date": "2026-06-08",
+  "changes": [
+    "Initialized the sample briefcase directory.",
+    "Populated glossary, command catalog, ownership map, and test evidence."
+  ],
+  "deliverables": [
+    "Runnable example bundle."
+  ],
+  "tests": [
+    "python -m agent_memory_briefcase brief --root examples/demo_bundle",
+    "python -m agent_memory_briefcase export --root examples/demo_bundle --format json"
+  ],
+  "risks": [
+    "Sample data should not be mistaken for production metadata."
+  ],
+  "artifacts": [
+    ".agent-memory-briefcase/"
+  ],
+  "updated_at": "2026-06-08T00:00:00Z"
+}
+
