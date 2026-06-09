@@ -26,3 +26,7 @@ jobs:
         run: python -m agent_memory_briefcase export --root examples/demo_bundle --format handoff --output build/agent-handoff.md
       - name: Run doctor smoke
         run: python -m agent_memory_briefcase doctor --root examples/demo_bundle --check warning --output build/agent-doctor.md
+      - name: Run SARIF doctor smoke
+        run: python -m agent_memory_briefcase doctor --root examples/demo_bundle --format sarif --output build/agent-doctor.sarif
+      - name: Run PR comment doctor smoke
+        run: python -m agent_memory_briefcase doctor --root examples/demo_bundle --format pr-comment --output build/agent-doctor-comment.md

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 - 2026-06-09
+
+- Added `doctor --format sarif` for GitHub Code Scanning and CI-native memory health annotations.
+- Added `doctor --format pr-comment` for stable PR comment / step summary reports.
+- Added renderer and CLI tests for SARIF and PR comment output.
+- Added CI smoke coverage for the new doctor report formats.
+- Expanded Chinese / English README docs with GitHub Actions examples.
+
 ## 0.3.0 - 2026-06-09
 
 - Added `doctor` health reports for agent handoff readiness.

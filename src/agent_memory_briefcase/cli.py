@@ -6,7 +6,12 @@ from pathlib import Path
 from typing import List, Optional
 
 from agent_memory_briefcase.briefing import brief_as_json, generate_brief_from_root
-from agent_memory_briefcase.doctor import render_doctor_markdown, run_doctor
+from agent_memory_briefcase.doctor import (
+    render_doctor_markdown,
+    render_doctor_pr_comment,
+    render_doctor_sarif,
+    run_doctor,
+)
 from agent_memory_briefcase.linting import highest_severity, run_lint
 from agent_memory_briefcase.models import Finding
 from agent_memory_briefcase.render import render_handoff_export, render_json_export, render_markdown_export
@@ -158,11 +163,14 @@ def cmd_check(args: argparse.Namespace) -> int:
 
 def cmd_doctor(args: argparse.Namespace) -> int:
     report = run_doctor(Path(args.root), today=_parse_date(args.today))
-    content = (
-        json.dumps(report, indent=2, ensure_ascii=False) + "\n"
-        if args.format == "json"
-        else render_doctor_markdown(report)
-    )
+    if args.format == "json":
+        content = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+    elif args.format == "sarif":
+        content = render_doctor_sarif(report)
+    elif args.format == "pr-comment":
+        content = render_doctor_pr_comment(report)
+    else:
+        content = render_doctor_markdown(report)
     if args.output:
         target = Path(args.output)
         _write_output(target, content)
@@ -260,7 +268,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Generate a health report for agent handoffs and CI gates.",
     )
     doctor_parser.add_argument("--root", default=".", help=root_help)
-    doctor_parser.add_argument("--format", choices=["markdown", "json"], default="markdown")
+    doctor_parser.add_argument("--format", choices=["markdown", "json", "sarif", "pr-comment"], default="markdown")
     doctor_parser.add_argument("--output")
     doctor_parser.add_argument("--today", help="Override the current day in YYYY-MM-DD format.")
     doctor_parser.add_argument(

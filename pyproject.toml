@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-memory-briefcase"
-version = "0.3.0"
+version = "0.4.0"
 description = "Offline long-term memory bundles for Codex, Claude Code, and other AI coding agents."
 readme = "README.md"
 requires-python = ">=3.9"

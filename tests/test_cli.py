@@ -161,6 +161,23 @@ class CliTests(unittest.TestCase):
         self.assertEqual(payload["project_name"], "demo")
         self.assertEqual(payload["status"], "attention")
 
+    def test_doctor_command_prints_sarif(self) -> None:
+        self._run(["init", "--root", str(self.root), "--project-name", "demo"])
+        code, out, _ = self._run(["doctor", "--root", str(self.root), "--format", "sarif"])
+        payload = json.loads(out)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(payload["version"], "2.1.0")
+        self.assertEqual(payload["runs"][0]["tool"]["driver"]["name"], "agent-memory-briefcase")
+
+    def test_doctor_command_prints_pr_comment(self) -> None:
+        self._run(["init", "--root", str(self.root), "--project-name", "demo"])
+        code, out, _ = self._run(["doctor", "--root", str(self.root), "--format", "pr-comment"])
+
+        self.assertEqual(code, 0)
+        self.assertIn("<!-- agent-memory-briefcase doctor -->", out)
+        self.assertIn("| Gate | Status | Summary |", out)
+
     def test_doctor_command_writes_output_with_parent_creation(self) -> None:
         self._run(["init", "--root", str(self.root), "--project-name", "demo"])
         target = self.root / "build" / "doctor.md"
